@@ -14,7 +14,7 @@ public class E2ECreateDeleteCard extends BaseTest{
     private final HashMap<String, Object> dataMap = new HashMap<>();
 
     @Test(priority = 1)
-    public void createNewSpase() {
+    public void createSpase() {
         Response response = given()
                 .header("Authorization", token)
                 .contentType(ContentType.JSON)
@@ -84,7 +84,7 @@ public class E2ECreateDeleteCard extends BaseTest{
         Assert.assertEquals(200, response.statusCode());
     }
     @Test(priority = 3)
-    public void createNewCard(){
+    public void createCard(){
         Response response = given()
                 .header("Authorization", token)
                 .contentType(ContentType.JSON)
@@ -92,7 +92,6 @@ public class E2ECreateDeleteCard extends BaseTest{
                         " \"title\": 1,\n" +
                         " \"board_id\": " + dataMap.get("board_id") + "\n" +
                         "}")
-
                 .when()
                 .post(constants.CARDS)
                 .then()
@@ -114,6 +113,39 @@ public class E2ECreateDeleteCard extends BaseTest{
                 .log()
                 .all()
                 .extract().response();
+        Assert.assertEquals(200, response.statusCode());
+    }
+    @Test(priority = 5)
+    public void deleteBoard(){
+
+        Response response = given()
+                .header("Authorization", token)
+                .contentType(ContentType.JSON)
+                .body("{\n" +
+                        " \"force\": true\n" +
+                        "}")
+                .when()
+                .delete(constants.SPACES + dataMap.get("space_id") + constants.BOARDS +"/" + dataMap.get("board_id"))
+                .then()
+                .log()
+                .all()
+                .extract().response();
+        Assert.assertEquals(200, response.statusCode());
+    }
+
+    @Test(priority = 6)
+    public void deleteSpase() {
+        Response response = given()
+                .header("Authorization", token)
+                .contentType(ContentType.JSON)
+                .when()
+                .delete(constants.SPACES + dataMap.get("space_id"))
+                .then()
+                .log()
+                .all()
+                .extract().response();
+
+        dataMap.put("space_id", response.jsonPath().getString("id"));
         Assert.assertEquals(200, response.statusCode());
     }
 }

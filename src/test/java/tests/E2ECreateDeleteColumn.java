@@ -9,17 +9,17 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
-public class E2ECreateDeleteBoard  extends BaseTest{
+public class E2ECreateDeleteColumn extends BaseTest{
 
     private final HashMap<String, Object> dataMap = new HashMap<>();
 
     @Test(priority=1)
-    public void createSpase() {
+    public void createSpace(){
         Response response = given()
                 .header("Authorization", token)
                 .contentType(ContentType.JSON)
                 .body("{\n" +
-                        " \"title\": \"E2EE2ECreateDeleteBoard\",\n" +
+                        " \"title\": \"Myspace\",\n" +
                         " \"external_id\": 1}")
                 .when()
                 .post(constants.SPACES)
@@ -27,15 +27,15 @@ public class E2ECreateDeleteBoard  extends BaseTest{
                 .log()
                 .all()
                 .extract().response();
+
+        dataMap.put("space_id", response.jsonPath().getInt("space_id"));
         Assert.assertEquals(200, response.statusCode());
-        Assert.assertEquals(response.jsonPath().getString("title"), "E2EE2ECreateDeleteBoard");
+        Assert.assertEquals(response.jsonPath().getString("title"), "Myspace");
         Assert.assertEquals(response.jsonPath().getString("external_id"), "1");
         Assert.assertEquals(response.jsonPath().getString("archived"), "false");
-
-        dataMap.put("space_id", response.jsonPath().getInt("id"));
     }
 
-    @Test(priority = 2)
+    @Test(priority=2)
     public void createBoard(){
         Response response = given()
                 .header("Authorization", token)
@@ -80,13 +80,44 @@ public class E2ECreateDeleteBoard  extends BaseTest{
                 .log()
                 .all()
                 .extract().response();
-        dataMap.put("board_id", response.jsonPath().getInt("id"));
+        dataMap.put("board_id", response.jsonPath().getInt("board_id"));
         Assert.assertEquals(200, response.statusCode());
     }
 
-    @Test(priority = 3)
-    public void deleteBoard(){
+    @Test(priority=3)
+    public void createColumn(){
+        Response response = given()
+                .header("Authorization", token)
+                .contentType(ContentType.JSON)
+                .body("{\n" +
+                        " \"title\": \"TanyaOfColumn\"\n" +
+                        "}")
+                .when()
+                .post(constants.BOARDS + "/" + dataMap.get("board_id") + constants.COLUMNS)
+                .then()
+                .log()
+                .all()
+                .extract().response();
+        dataMap.put("column_id", response.jsonPath().getInt("column_id"));
+        Assert.assertEquals(200, response.statusCode());
+    }
 
+    @Test(priority=4)
+    public void deleteColumn(){
+        Response response = given()
+                .header("Authorization", token)
+                .contentType(ContentType.JSON)
+                .when()
+                .delete(constants.BOARDS + "/" + dataMap.get("board_id") + constants.COLUMNS + "/" +  dataMap.get("column_id"))
+                .then()
+                .log()
+                .all()
+                .extract().response();
+        Assert.assertEquals(200, response.statusCode());
+    }
+
+    @Test(priority=5)
+    public void deleteBoard(){
         Response response = given()
                 .header("Authorization", token)
                 .contentType(ContentType.JSON)
@@ -102,7 +133,7 @@ public class E2ECreateDeleteBoard  extends BaseTest{
         Assert.assertEquals(200, response.statusCode());
     }
 
-    @Test(priority = 4)
+    @Test(priority = 6)
     public void deleteSpase() {
         Response response = given()
                 .header("Authorization", token)
