@@ -149,4 +149,3 @@ public class E2ECreateDeleteCard extends BaseTest{
         Assert.assertEquals(200, response.statusCode());
     }
 }
-
