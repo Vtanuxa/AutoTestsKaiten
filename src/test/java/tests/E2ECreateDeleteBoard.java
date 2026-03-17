@@ -117,4 +117,6 @@ public class E2ECreateDeleteBoard  extends BaseTest{
         dataMap.put("space_id", response.jsonPath().getString("id"));
         Assert.assertEquals(200, response.statusCode());
     }
+
+
 }

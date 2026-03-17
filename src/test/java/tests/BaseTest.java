@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.baseURI;
 public class BaseTest {
 
     public String token = "Bearer 3acab98a-efb7-463c-99dd-599baa1f8471";
-    Constants constants = new Constants();
+    public Constants constants = new Constants();
 
     @BeforeTest
     public void setup() {
