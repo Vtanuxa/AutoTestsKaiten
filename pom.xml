@@ -1,16 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.example</groupId>
     <artifactId>Kaiten</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <properties>
         <aspectj.version>1.9.20.1</aspectj.version>
-        <allure.version>2.37.0</allure.version>
+        <allure.version>2.33.0</allure.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,13 +29,18 @@
             <artifactId>allure-testng</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <!--  Allure Selenide  -->
+        <!--   Allure Selenide   -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <!--  AspectJ Weaver (обязательно для Allure)  -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <!--   AspectJ Weaver (обязательно для Allure)   -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
@@ -49,7 +49,7 @@
     </dependencies>
     <build>
         <plugins>
-            <!-- Существующий surefire-plugin -->
+            <!--  Существующий surefire-plugin  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -64,8 +64,7 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
-
-            <!-- Добавить Allure Maven Plugin -->
+            <!--  Добавить Allure Maven Plugin  -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>

@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -9,11 +10,17 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
+@Epic("E2E тесты для создания и удаления пространства, доски")
+@Feature("Создание объектов")
+
 public class E2ECreateDeleteBoard  extends BaseTest{
 
     private final HashMap<String, Object> dataMap = new HashMap<>();
 
     @Test(priority=1)
+    @Step("Создание нового пространства (space)")
+    @Description("Создание нового пространства")
+    @Severity(SeverityLevel.NORMAL)
     public void createSpase() {
         Response response = given()
                 .header("Authorization", token)
@@ -36,6 +43,8 @@ public class E2ECreateDeleteBoard  extends BaseTest{
     }
 
     @Test(priority = 2)
+    @Step("Создание доски (board) в пространстве с ID: {spaceId}")
+    @Description("Создание доски с колонками To do, In progress, Done и дополнительными настройками")
     public void createBoard(){
         Response response = given()
                 .header("Authorization", token)
@@ -85,6 +94,7 @@ public class E2ECreateDeleteBoard  extends BaseTest{
     }
 
     @Test(priority = 3)
+    @Step("Удаление доски (board)")
     public void deleteBoard(){
 
         Response response = given()
@@ -103,6 +113,7 @@ public class E2ECreateDeleteBoard  extends BaseTest{
     }
 
     @Test(priority = 4)
+    @Step("Удаление пространства (space)")
     public void deleteSpase() {
         Response response = given()
                 .header("Authorization", token)
@@ -117,6 +128,4 @@ public class E2ECreateDeleteBoard  extends BaseTest{
         dataMap.put("space_id", response.jsonPath().getString("id"));
         Assert.assertEquals(200, response.statusCode());
     }
-
-
 }

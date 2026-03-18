@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -9,11 +10,18 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
+@Epic("E2E тесты для создания и удаления пространства, доски, карточки")
+@Feature("Создание объектов")
+
 public class E2ECreateDeleteCard extends BaseTest{
 
     private final HashMap<String, Object> dataMap = new HashMap<>();
 
     @Test(priority = 1)
+    @Step("Создание нового пространства (space)")
+    @Description("Создание нового пространства")
+    @Severity(SeverityLevel.NORMAL)
+    @Flaky
     public void createSpase() {
         Response response = given()
                 .header("Authorization", token)
@@ -36,6 +44,10 @@ public class E2ECreateDeleteCard extends BaseTest{
     }
 
     @Test(priority = 2)
+    @Step("Создание доски (board) в пространстве с ID: {spaceId}")
+    @Description("Создание доски с колонками To do, In progress, Done и дополнительными настройками")
+    @Severity(SeverityLevel.NORMAL)
+    @Flaky
     public void createBoard(){
         Response response = given()
                 .header("Authorization", token)
@@ -84,6 +96,10 @@ public class E2ECreateDeleteCard extends BaseTest{
         Assert.assertEquals(200, response.statusCode());
     }
     @Test(priority = 3)
+    @Step("Создание новой карточки (card)")
+    @Description("Создание карточки")
+    @Severity(SeverityLevel.NORMAL)
+    @Flaky
     public void createCard(){
         Response response = given()
                 .header("Authorization", token)
@@ -102,6 +118,9 @@ public class E2ECreateDeleteCard extends BaseTest{
         dataMap.put("card_id", response.jsonPath().getInt("id"));
     }
     @Test(priority = 4)
+    @Step("Удаление карточки (card)")
+    @Description("Удаление карточки")
+    @Severity(SeverityLevel.NORMAL)
     public void deleteCard(){
 
         Response response = given()
@@ -116,6 +135,10 @@ public class E2ECreateDeleteCard extends BaseTest{
         Assert.assertEquals(200, response.statusCode());
     }
     @Test(priority = 5)
+    @Step("Удаление доски (board)")
+    @Description("Удаление доски")
+    @Severity(SeverityLevel.NORMAL)
+    @Flaky
     public void deleteBoard(){
 
         Response response = given()
@@ -134,6 +157,10 @@ public class E2ECreateDeleteCard extends BaseTest{
     }
 
     @Test(priority = 6)
+    @Step("Удаление пространства (space)")
+    @Description("Удаление пространства")
+    @Severity(SeverityLevel.NORMAL)
+    @Flaky
     public void deleteSpase() {
         Response response = given()
                 .header("Authorization", token)

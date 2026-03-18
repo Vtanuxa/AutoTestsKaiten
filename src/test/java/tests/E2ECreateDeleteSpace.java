@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -9,11 +10,18 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
+@Epic("E2E тесты для создания и удаления пространства")
+@Feature("Создание объектов")
+
 public class E2ECreateDeleteSpace extends BaseTest {
 
     private final HashMap<String, Object> dataMap = new HashMap<>();
 
     @Test(priority = 1)
+    @Step("Создание нового пространства (space)")
+    @Description("Создание нового пространства")
+    @Severity(SeverityLevel.NORMAL)
+
     public void createNewSpase() {
         Response response = given()
                 .header("Authorization", token)
@@ -36,6 +44,9 @@ public class E2ECreateDeleteSpace extends BaseTest {
     }
 
     @Test(priority = 2)
+    @Step("Удаление пространства (space)")
+    @Description("Удаление пространства")
+    @Severity(SeverityLevel.NORMAL)
     public void deleteSpase() {
         Response response = given()
                 .header("Authorization", token)
@@ -49,6 +60,5 @@ public class E2ECreateDeleteSpace extends BaseTest {
 
         dataMap.put("space_id", response.jsonPath().getString("id"));
         Assert.assertEquals(200, response.statusCode());
-
     }
 }

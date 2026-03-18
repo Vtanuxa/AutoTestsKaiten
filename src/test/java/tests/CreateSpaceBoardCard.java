@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -10,11 +11,17 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
+@Epic("E2E тесты для создания пространства, доски, карточки")
+@Feature("Создание объектов")
+
 public class CreateSpaceBoardCard extends BaseTest {
 
     private final HashMap<String, Object> dataMap = new HashMap<>();
 
     @Test(priority = 1)
+    @Step("Создание нового пространства (space)")
+    @Description("Создание нового пространства")
+    @Severity(SeverityLevel.NORMAL)
     public void createNewSpase(){
         Response response = given()
                 .header("Authorization", token)
@@ -37,6 +44,9 @@ public class CreateSpaceBoardCard extends BaseTest {
     }
 
     @Test(priority = 2)
+    @Step("Создание доски (board) в пространстве с ID: {spaceId}")
+    @Description("Создание доски с колонками To do, In progress, Done и дополнительными настройками")
+    @Severity(SeverityLevel.NORMAL)
     public void createBoard(){
         Response response = given()
                 .header("Authorization", token)
@@ -87,6 +97,9 @@ public class CreateSpaceBoardCard extends BaseTest {
     }
 
     @Test(priority = 3)
+    @Step("Создание новой карточки (card)")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Создание карточки на доске")
     public void createNewCard(){
         Response response = given()
                 .header("Authorization", token)

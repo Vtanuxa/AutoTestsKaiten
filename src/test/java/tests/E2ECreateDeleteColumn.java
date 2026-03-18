@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -9,11 +10,18 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
+@Epic("E2E тесты для создания пространства, доски, колонки")
+@Feature("Создание объектов")
+
 public class E2ECreateDeleteColumn extends BaseTest{
 
     private final HashMap<String, Object> dataMap = new HashMap<>();
 
     @Test(priority=1)
+    @Step("Создание нового пространства (space)")
+    @Description("Создание нового пространства")
+    @Severity(SeverityLevel.BLOCKER)
+    @Flaky
     public void createSpace(){
         Response response = given()
                 .header("Authorization", token)
@@ -28,7 +36,7 @@ public class E2ECreateDeleteColumn extends BaseTest{
                 .all()
                 .extract().response();
 
-        dataMap.put("space_id", response.jsonPath().getInt("space_id"));
+        dataMap.put("space_id", response.jsonPath().getInt("id"));
         Assert.assertEquals(200, response.statusCode());
         Assert.assertEquals(response.jsonPath().getString("title"), "Myspace");
         Assert.assertEquals(response.jsonPath().getString("external_id"), "1");
@@ -36,6 +44,9 @@ public class E2ECreateDeleteColumn extends BaseTest{
     }
 
     @Test(priority=2)
+    @Step("Создание доски (board) в пространстве с ID: {spaceId}")
+    @Description("Создание доски с колонками To do, In progress, Done и дополнительными настройками")
+    @Severity(SeverityLevel.NORMAL)
     public void createBoard(){
         Response response = given()
                 .header("Authorization", token)
@@ -80,11 +91,15 @@ public class E2ECreateDeleteColumn extends BaseTest{
                 .log()
                 .all()
                 .extract().response();
-        dataMap.put("board_id", response.jsonPath().getInt("board_id"));
+        dataMap.put("board_id", response.jsonPath().getInt("id"));
         Assert.assertEquals(200, response.statusCode());
     }
 
     @Test(priority=3)
+    @Step("Создание новой колонки (column)")
+    @Flaky
+    @Description("Создание колонки")
+    @Severity(SeverityLevel.NORMAL)
     public void createColumn(){
         Response response = given()
                 .header("Authorization", token)
@@ -98,11 +113,15 @@ public class E2ECreateDeleteColumn extends BaseTest{
                 .log()
                 .all()
                 .extract().response();
-        dataMap.put("column_id", response.jsonPath().getInt("column_id"));
+        dataMap.put("column_id", response.jsonPath().getInt("id"));
         Assert.assertEquals(200, response.statusCode());
     }
 
     @Test(priority=4)
+    @Step("Удаление колонки (column)")
+    @Flaky
+    @Description("Удаление колонки")
+    @Severity(SeverityLevel.NORMAL)
     public void deleteColumn(){
         Response response = given()
                 .header("Authorization", token)
@@ -117,6 +136,10 @@ public class E2ECreateDeleteColumn extends BaseTest{
     }
 
     @Test(priority=5)
+    @Step("Удаление доски (board)")
+    @Flaky
+    @Description("Удаление доски")
+    @Severity(SeverityLevel.NORMAL)
     public void deleteBoard(){
         Response response = given()
                 .header("Authorization", token)
@@ -134,6 +157,7 @@ public class E2ECreateDeleteColumn extends BaseTest{
     }
 
     @Test(priority = 6)
+    @Step("Удаление пространства (space)")
     public void deleteSpase() {
         Response response = given()
                 .header("Authorization", token)
