@@ -1,0 +1,34 @@
+{
+  "title": "Test Json File pojoCreateBoard",
+  "columns": [
+    {
+      "title": "To do",
+      "type": 1
+    },
+    {
+      "title": "In progress",
+      "type": 2
+    },
+    {
+      "title": "Done",
+      "type": 3
+    }
+  ],
+  "lanes": [
+    {
+      "title": "Вот что такое lanes",
+      "type": 2
+    }
+  ],
+  "description": "my description",
+  "top": 1,
+  "left": 1,
+  "default_card_type_id": 1,
+  "first_image_is_cover": false,
+  "reset_lane_spent_time": false,
+  "automove_cards": false,
+  "backward_moves_enabled": false,
+  "auto_assign_enabled": false,
+  "sort_order": 1,
+  "external_id": 5
+}
